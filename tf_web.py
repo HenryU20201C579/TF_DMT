@@ -2,6 +2,7 @@ import streamlit as st
 import pickle
 import pandas as pd
 import numpy as np
+import plotly.graph_objects as go
 
 # Cargar el modelo y el scaler
 @st.cache_resource
