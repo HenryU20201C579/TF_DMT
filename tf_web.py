@@ -6,9 +6,9 @@ import plotly.graph_objects as go
 
 # Cargar el modelo y el scaler
 @st.cache_resource
-def load_model():
-    with open('hotel_gb_model.pkl', 'rb') as gb:
-        gb_model = pickle.load(gb)
+def load_model(model_file):
+    with open(model_file, 'rb') as model:
+        gb_model = pickle.load(model)
     with open('hotel_scaler.pkl', 'rb') as sc:
         scaler = pickle.load(sc)
     with open('hotel_features.pkl', 'rb') as feat:
@@ -27,8 +27,11 @@ def main():
     st.title('Predicción de Cancelaciones de Reservas Hoteleras')
     st.subheader('Sistema de Predicción con Gradient Boosting')
     
-    # Cargar modelo
-    model, scaler, features = load_model()
+    # Sidebar para elegir el archivo .pkl
+    model_choice = st.sidebar.selectbox('Selecciona el modelo', ['hotel_gb_model.pkl', 'hotel_xgboost_model.pkl'])  # Agrega más modelos si los tienes
+    
+    # Cargar el modelo seleccionado
+    model, scaler, features = load_model(model_choice)
     
     # Sidebar
     st.sidebar.header('Parámetros de la Reserva')
@@ -129,8 +132,6 @@ def main():
             st.write(f'Probabilidad de cancelación: {probability[1]:.2%}')
         
         # Mostrar gráfico de probabilidad
-        import plotly.graph_objects as go
-        
         fig = go.Figure(go.Indicator(
             mode = "gauge+number",
             value = probability[1] * 100,
