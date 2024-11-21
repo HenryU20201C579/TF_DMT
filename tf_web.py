@@ -165,5 +165,5 @@ def main():
             for factor in risk_factors:
                 st.write(factor)
 
-if _name_ == '_main_':
+if _name_ == '__main__':
     main()
